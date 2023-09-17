@@ -1,0 +1,184 @@
+use sales;
+select * from sales;
+
+select distinct ship_mode as stye from sales;
+
+select avg(sales) from sales group by year_new;
+select  year_new, avg(sales) from sales group by year_new;
+select  year_new, min(sales) from sales group by year_new;
+select  year_new, max(sales) from sales group by year_new;
+select  year_new, sum(sales) from sales group by year_new;
+
+
+select  year_new, avg(quantity) from sales group by year_new;
+select  year_new, sum(quantity) from sales group by year_new;
+
+select (discount+shipping_cost) from sales;
+
+select sum(discount+shipping_cost) from sales;
+
+select order_id ,if(discount > 0, 'yes' , 'no') as discount_flag from sales;
+
+select order_id , discount, if(discount > 0, 'yes' , 'no') as discount_flag from sales;
+
+select* from sales;
+
+alter table sales
+modify column discount_flag  varchar(30) after discount;
+
+
+update sales
+set discount_flag = if(discount > "0", "yes" , "no");
+
+SET SQL_SAFE_UPDATE=1;
+SET SQL_SAFE_UPDATES = 0;
+
+select discount_flag, count(*) from sales group by discount_flag;
+select count(*) from sales where discount > 0
+
+
+     PROCEDURE AND FUNCTIONS
+set global max_allowed_packet= 
+
+use sales;
+ select* from sales;
+ 
+ 
+ DELIMITER $$
+ create function add_to_col1(a int)
+ returns int
+ deterministic
+ begin
+ declare b int;
+ set b = a + 10;
+ return b;
+ end $$
+ 
+ 
+ select * from sales;
+ select max(sales) from sales
+ 
+ select add_to_col(15);
+ 
+ select quantity + 10 from sales;
+ select quantity , add_to_col(quantity) from sales;
+ 
+ DELIMITER $$
+ create function final_profits(profit int, discount int)
+ returns int 
+ deterministic
+ begin 
+ declare final_profit int;
+ set final_profit = profit - discount ;
+ return final_profit;
+ end $$
+ 
+ use sales 
+ 
+ select * from sales;
+ select profit, discount, final_profits(profit, discount ) from sales;
+ 
+ alter table sales
+ add column final_profits_real after date final_profit;
+ 
+ DELIMITER $$
+ create function final_profits_real(profit decimal(20,10), discount decimal(20,5), sales decimal(20,5)
+ returns int ;
+ deterministic
+ begin 
+ declare final_profit int;
+ set final_profits = profit - sales * discount;
+ return final_profit;
+ end $$
+ 
+ select add_to_col(15)
+ select profit, discount, sales, final_profit_real(profit,discount,sales) from sales; 
+ 
+ 
+ alter table sales
+ add column final_profits date after profit;
+ 
+ DELIMITER &&
+ create function int_to_str (a int)
+ returns varchar(30)
+ deterministic
+ begin
+ declare b varchar(30);
+ set b= a;
+ return b;
+ end &&
+ 
+ 
+ select int_to_str(45)
+ 
+ select * from sales
+ 
+ select int_to_str(quantity) from sales;
+
+
+ select quantity, int_to_str(quantity) from sales;
+
+select max(sales), min(sales) from sales;
+
+5 - 100 -super affordable product
+100 - 300 - affordable
+300 - 500 - moderate
+500 + - expensive
+
+DELIMITER &&
+create function mark_sales1(sales int)
+returns varchar (30)
+DETERMINISTIC
+begin
+declare flag_sales varchar(30);
+if sales <= 100 then
+set flag_sales = "super affordable product";
+elseif sales > 100 and sales <300 then
+set flag_sales = "affordable";
+elseif sales > 300 and sales < 500 then
+set flag_sales = "moderate" ;
+else
+set flag_sales= "expensive";
+end if ;
+return flag_sales ;
+end &&
+
+use sales
+select * from sales;
+
+alter table sales
+add column falg_sales varchar(30) after sales;
+
+select mark_sales1(10)
+select mark_sales1(100)
+
+select mark_sales1(500)
+
+select sales, mark_sales1(sales) from sales;
+
+
+create table loop_table(val int);
+
+delimiter $$
+create procedure insert_data()
+begin
+set @var=10;
+generate_data : loop
+insert into loop_table values (@var);
+set @var = @var + 1;
+if @var = 100 then
+leave generate_data;
+end if;
+end loop generate_data;
+end $$
+
+
+call insert_data()
+select * from loop_table 
+
+
+
+
+
+
+

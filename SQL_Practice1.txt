@@ -1,0 +1,355 @@
+create database key_prim
+use key_prim
+
+create table ineuron(
+course_id int not null,
+course_name varchar(60),
+course_status varchar(60),
+number_of_enro int,
+primary key (course_id));
+
+insert into ineuron values (01 ,'fsda' ,'active' ,100);
+insert into ineuron values (02 ,'fsds' ,'not-active' ,200);
+
+select *  from ineuron;
+
+create table student_id(
+student_id int,
+course_name varchar(60),
+student_mail varchar(60),
+student_status varchar(40),
+course_id1 int, 
+foreign key(course_id1) references ineuron(course_id));
+
+insert into  student_id values (101, 'fsda', 'test@gmail.com', 'active', 01);
+
+insert into  student_id values (101, 'fsda', 'test@gmail.com', 'active', 05);
+
+insert into  student_id values (101, 'fsda', 'test@gmail.com', 'active', 01);
+
+insert into  student_id values (101, 'fsda', 'test@gmail.com', 'active', 01);
+
+
+select * from student_id; 
+
+
+create table test(
+id int not null,
+name varchar(30),
+email_id varchar(40),
+mobile_no varchar(10),
+adress varchar(20));
+
+alter table test add primary key(id)
+
+alter table test drop primary key 
+
+select * from test;
+
+alter table test add constraint test_prim primary key (id, email_id);
+
+create table parent(
+id int not null,
+primary key(id));
+
+create  table child(
+id int,
+parent_id int,
+foreign key (parent_id) references parent(id));
+
+insert into parent values
+
+insert into parent values (1);
+select * from parent;
+
+insert into child values (1,1);
+select * from child ;
+insert into child values(2,2);
+
+
+delete from parent where id=1;
+delete from child where id=1;
+
+drop table child;
+
+ create table child(
+ id int,
+ parent_id int,
+ foreign key (parent_id) references parent(id) on delete cascade ) ;
+ 
+ 
+ 
+    WINDOW FUNCTION
+    
+  Create database win_fun
+  use  win_fun
+  
+  create table ineuron_students(
+  student_id int,
+  student_batch varchar(40),
+  student_name varchar(40),
+  student_stream varchar(40),
+  student_marks int,
+  student_mail_id varchar(40));
+ 
+ select * from ineuron_students;
+ insert into ineuron_students values(100, 'fsda', 'sunil', 'cs', 85, 'sunil@gmail.com')
+ 
+  insert into ineuron_students values (101, 'fsda', 'lal', 'cs', 85, 'lal@gmail.com'),
+ (102, 'fsda', 'soori', 'cs', 85, 'soori@gmail.com'),
+ (103, 'fsda', 'sourabh', 'cs', 90, 'sourabh@gmail.com'),
+ (104, 'fsda', 'anil', 'cs', 98, 'anil@gmail.com'),
+ (105, 'fsde', 'chetu', 'ece', 99, 'chetu@gmail.com'),
+(106, 'fsde', 'sudhu', 'me', 89, 'sudhu@gmail.com'),
+(107, 'fsda', 'rohan', 'cs', 80, 'rohan@gmail.com'),
+(108, 'fsdb', 'dhanush', 'ee', 89, 'dhanush@gmail.com'),
+(109, 'fsda', 'vishal', 'ece', 99, 'vishal@gmail.com'),
+(110, 'fsdb', 'dhruv', 'ce', 95, 'dhruv@gmail.com'),
+(111, 'fsdb', 'tejas', 'ce', 89, 'tejas@gmail.com'),
+(112, 'fsdb', 'satvik', 'cs', 90, 'satvik@gmail.com'),
+(113, 'fsdb', 'nikhil', 'cs', 83, 'nikhil@gmail.com');
+
+
+select * from ineuron_students;
+
+select student_batch , sum(student_marks) from ineuron_students group by student_batch;	
+select student_batch , min(student_marks) from ineuron_students group by student_batch
+ 
+select student_batch , max(student_marks) from ineuron_students group by student_batch;
+ 
+select student_batch , avg(student_marks) from ineuron_students group by student_batch
+ 
+ 
+ select count(student_batch) from ineuron_students;
+  
+ select count(distinct student_batch) from ineuron_students;
+ 
+select student_batch, count(*) from ineuron_students group by student_batch;
+
+
+select * from ineuron_students;
+use  win_fun;
+SHOW FUNCTION STATUS LIKE 'win_fun%';
+
+show tables
+select student_name, student_batch, max(student_marks) from ineuron_students group by student_batch= 'fsda';
+
+select student_name,student_marks,student_batch from ineuron_students where student_marks=(select  max(student_marks) from
+ ineuron_students where student_batch='fsda') and student_batch='fsda';
+ 
+ select max(student_marks) from  ineuron_students where student_batch='fsde';
+
+
+select student_name,student_marks,student_batch from ineuron_students where student_marks=(
+ select max(student_marks) from  ineuron_students where student_batch='fsde') and student_batch='fsde'; 
+
+select student_name from ineuron_students where student_batch='fsda' order by student_marks desc limit 2;
+
+ where student_batch='fsda' order by student_marks desc limit 2;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc limit 1,1;
+
+select * from ineuron_students where student_batch='fsda' order by student_
+select student_name,student_marks,student_batch from ineuron_studentsmarks desc limit 1,2;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc limit 2,2;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc limit 1,3;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc limit 3,3;
+
+select * from ineuron_students where student_batch='fsda' order by student_marks desc limit 4,3;
+
+
+select student_name,student_marks,student_batch, student_stream, row_number() over (order by student_marks) as `row number` from ineuron_students
+
+
+select student_name,student_marks,student_batch, student_stream, row_number() over (partition by student_batch order by student_marks) as `row number` from ineuron_students
+
+
+
+select * from ( student_name,student_marks,student_batch, student_stream, row_number() over (partition by student_batch order by student_marks) as `row number` from
+ ineuron_students) as test where row_number = 1;
+
+
+select student_name, student_marks, student_batch, student_stream, rank() over (order by student_marks desc) as `row_rank` from ineuron_students
+
+
+select student_name, student_marks, student_batch, student_stream, row_number() over (order by student_marks desc) as `row_number`, rank() 
+over (order by student_marks desc) as `row_rank` from ineuron_students
+
+
+select student_name, student_marks, student_batch, student_stream, row_number() over (order by student_marks desc) as `row_number`,
+ rank() over (order by student_marks desc) as `row_rank`, 
+ dense_rank() over (order by student_marks desc) as `dense_rank` from ineuron_students
+ 
+ ` PARTITION TOPIC `
+ 
+ create database ineuron_partition
+ 
+ use ineuron_partition
+ 
+ create table ineuron_course(
+ course_name varchar(50),
+ course_id int,
+ course_title varchar(50),
+ course_desc varchar(50),
+ course_date date,
+ cousre_fee int,
+ course_mentor varchar(50),
+ course_launch_yaer int)
+ 
+ select * from ineuron_course
+ 
+ insert into ineuron_course values 
+ ('java', 100, 'jv', 'its a java', '2020-06-01',5000,'soori_DON',2020),
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2022), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017),
+ ('c', 103, 'c++', 'its a c', '2017-06-01',6000,'sunil',2017),
+  ('c#', 104, 'c--', 'its a c++', '2023-06-01',4000,'dhanesh',2023), 
+  ('dotnet', 105, '.net', 'its a dotnet', '2017-06-01',3000,'anil',2017),
+   ('sql', 106, 'mysql', 'its a mysql', '2023-06-01',6500,'sunil_g',2023),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('powerbi', 108, 'pbi', 'its a powerbi', '2022-06-01',9500,'arun',2022),
+ ('selenium', 109, 'slnm', 'its a selenium', '2023-06-01',10000,'akshay',2023),
+  ('tablue', 110, 'tbl', 'its a tablue', '2022-06-01',15000,'ninga',2022), 
+  ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020)
+  
+  
+  
+  select * from ineuron_course
+  
+  
+select * from ineuron_course where course_launch_yaer=2023;
+
+select * from ineuron_course where course_launch_yaer=2020;
+
+select * from ineuron_course where course_launch_yaer=2022;
+
+select * from ineuron_course where course_launch_yaer=2017;
+
+
+
+ create table ineuron_course1(
+ course_name varchar(50),
+ course_id int,
+ course_title varchar(50),
+ course_desc varchar(50),
+ course_date date,
+ cousre_fee int,
+ course_mentor varchar(50),
+ course_launch_yaer int);
+ 
+ select * from ineuron_course1
+ 
+ insert into ineuron_course1 values 
+ ('java', 100, 'jv', 'its a java', '2020-06-01',5000,'soori_DON',2020),
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2022), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017),
+ ('c', 103, 'c++', 'its a c', '2017-06-01',6000,'sunil',2017),
+  ('c#', 104, 'c--', 'its a c++', '2023-06-01',4000,'dhanesh',2023), 
+  ('dotnet', 105, '.net', 'its a dotnet', '2017-06-01',3000,'anil',2017),
+   ('sql', 106, 'mysql', 'its a mysql', '2023-06-01',6500,'sunil_g',2023),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('powerbi', 108, 'pbi', 'its a powerbi', '2022-06-01',9500,'arun',2022),
+ ('selenium', 109, 'slnm', 'its a selenium', '2023-06-01',10000,'akshay',2023),
+  ('tablue', 110, 'tbl', 'its a tablue', '2022-06-01',15000,'ninga',2022), 
+  ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020),
+    ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020),
+   ('sql', 106, 'mysql', 'its a mysql', '2023-06-01',6500,'sunil_g',2023),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2022), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017);
+    
+ 
+ partitions by range (course_launch_yaer)
+ partition p0 values less than (2023),
+ partition p1 values less than (2022),
+ partition p2 values less than (2021),
+ partition p3 values less than (2020),
+ partition p4 values less than (2017);
+
+ 
+select * from ineuron_course1 where course_launch_yaer=2020; 
+
+select * from ineuron_course where course_launch_yaer=2020; 
+
+
+select partition_name, table_name, table_rows from information_schema. partitions where table_name='ineuron_course';
+
+SET @@sql_mode='NO_UNSIGNED_SUBTRACTION';
+
+ create table ineuron_course3(
+ course_name varchar(50),
+ course_id int,
+ course_title varchar(50),
+ course_desc varchar(50),
+ course_date date,
+ cousre_fee int,
+ course_mentor varchar(50),
+ course_launch_yaer int)
+ partition by range (course_launch_yaer)(
+ partition p0 values less than (2017),
+ partition p1 values less than (2020),
+ partition p2 values less than (2021),
+ partition p3 values less than (2022),
+ partition p4 values less than (2023));
+
+select * from ineuron_course3;
+
+
+ insert into ineuron_course3 values 
+ ('java', 100, 'jv', 'its a java', '2020-06-01',5000,'soori_DON',2020),
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2022), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017),
+ ('c', 103, 'c++', 'its a c', '2017-06-01',6000,'sunil',2017),
+  ('dotnet', 105, '.net', 'its a dotnet', '2017-06-01',3000,'anil',2017),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('powerbi', 108, 'pbi', 'its a powerbi', '2022-06-01',9500,'arun',2022),
+  ('tablue', 110, 'tbl', 'its a tablue', '2022-06-01',15000,'ninga',2022), 
+  ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020),
+    ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2022), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017),
+ ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2017);
+ 
+ 
+select partition_name, table_name, table_rows from information_schema. partitions where table_name='ineuron_course3';
+
+
+ create table ineuron_course5(
+ course_name varchar(50),
+ course_id int,
+ course_title varchar(50),
+ course_desc varchar(50),
+ course_date date,
+ cousre_fee int,
+ course_mentor varchar(50),
+ course_launch_yaer int)
+ partition by range columns(course_launch_yaer, course_name)
+ (partition p0 values less than (2023), ('java')
+ 
+ select * from ineuron_course4
+ 
+ 
+ insert into ineuron_course4 values 
+ ('java', 100, 'jv', 'its a java', '2020-06-01',5000,'soori_DON',2020),
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2015), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2016),
+ ('c', 103, 'c++', 'its a c', '2017-06-01',6000,'sunil',2016),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('powerbi', 108, 'pbi', 'its a powerbi', '2022-06-01',9500,'arun',2022),
+  ('tablue', 110, 'tbl', 'its a tablue', '2022-06-01',15000,'ninga',2022), 
+  ('excel', 111, 'xcl', 'its a excl', '2020-06-01',3000,'pritam',2020),
+  ('testing', 107, 'testengineer', 'its a testing', '2020-06-01',6700,'sun',2020), 
+  ('python', 101, 'py', 'its a phyton', '2022-06-01',9000,'soori_mav',2017), 
+  ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2014),
+ ('php', 102, 'phh', 'its a php', '2017-06-01',8000,'lal',2012);
+ 
+ 
+ 
